@@ -2,7 +2,7 @@
              TypeFamilies, RankNTypes #-}
 -- | Lenses for working with YAML structures.
 module Data.Yaml.YamlLight.Lens (
-   -- * Indexed traversals
+   -- * Traversals
    nth, key, key', 
    -- * Yaml parsing prism
    _Yaml, AsYaml(..),
@@ -52,6 +52,11 @@ instance Applicative f => Each f YamlLight YamlLight YamlLight YamlLight where
   each f (YMap m) = YMap <$> sequenceA (Map.mapWithKey (indexed f . ObjIx) m)
   each _ y = pure y
 
+instance Plated YamlLight where
+  plate f (YSeq xs) = YSeq <$> traverse f xs
+  plate f (YMap m) = YMap <$> traverse f m
+  plate f y = pure y
+
 noRemainder :: (a, ByteString) -> Maybe a
 noRemainder (x, bs) = if BC.null bs then Just x else Nothing
 
@@ -75,21 +80,21 @@ yamlReal _ = Nothing
 --
 -- >>> YSeq [YStr "a", YStr "b", YStr "c"] ^? nth 2 . _Yaml :: Maybe String
 -- Just "c"
-nth :: Applicative f => Int -> IndexedLensLike' YamlIx f YamlLight YamlLight
+nth :: Int -> Traversal' YamlLight YamlLight
 nth = ix . ArrIx
 
 -- | Lens into a mapping. 'ByteString's are used as keys directly. If
 -- you wish to use a complex mapping key, see 'key''.
 --
 -- >>> let m = YMap $ Map.fromList [(YStr "name", YStr "Tony Stark"), (YStr "sequels", YStr "2")]
--- >>> m & key "sequels" . traversed . _Yaml +~ 1
+-- >>> m & key "sequels" . _Yaml +~ 1
 -- YMap (fromList [(YStr "name",YStr "Tony Stark"),(YStr "sequels",YStr "3")])
-key :: ByteString -> IndexedLens' YamlIx YamlLight (Maybe YamlLight)
+key :: ByteString -> Traversal' YamlLight YamlLight
 key = key' . YStr
 
 -- | Lens into a mapping using a complex key.
-key' :: YamlLight -> IndexedLens' YamlIx YamlLight (Maybe YamlLight)
-key' = at . ObjIx
+key' :: YamlLight -> Traversal' YamlLight YamlLight
+key' = ix . ObjIx
 
 -- | Convert between YAML values and common types of Haskell values.
 class AsYaml a where
