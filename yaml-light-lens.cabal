@@ -1,5 +1,5 @@
 name:                yaml-light-lens
-version:             0.1.1
+version:             0.2
 synopsis:            Lens interface to yaml-light.
 -- description:         
 license:             BSD3

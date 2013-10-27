@@ -140,6 +140,15 @@ instance AsYaml Double where
   fromYaml _ = Nothing
   toYaml = YStr . BC.pack . show
 
+instance AsYaml Bool where
+  fromYaml (YStr s) = case () of
+                        _ | s == BC.pack "true"  -> Just True
+                          | s == BC.pack "false" -> Just False
+                          | otherwise            -> Nothing
+  fromYaml _ = Nothing
+  toYaml True  = YStr $ BC.pack "true"
+  toYaml False = YStr $ BC.pack "false"
+
 -- | Convert between YAML values and corresponding common Haskell
 -- values.
 --
