@@ -1,5 +1,5 @@
 name:                yaml-light-lens
-version:             0.2.0.1
+version:             0.3
 synopsis:            Lens interface to yaml-light.
 -- description:         
 license:             BSD3
@@ -22,7 +22,7 @@ library
                        bytestring,
                        bytestring-lexing >= 0.4.3,
                        containers,
-                       lens >= 3.8 && < 3.11,
+                       lens >= 4.0 && < 4.1,
                        yaml-light >= 0.1 && < 0.2
   hs-source-dirs:      src
   ghc-options:         -Wall -fno-warn-orphans

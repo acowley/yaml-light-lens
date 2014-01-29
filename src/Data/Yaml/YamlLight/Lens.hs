@@ -28,7 +28,7 @@ data YamlIx = ArrIx Int | ObjIx YamlLight
 type instance Index YamlLight = YamlIx
 type instance IxValue YamlLight = YamlLight
 
-instance Applicative f => Ixed f YamlLight where
+instance Ixed YamlLight where
   ix k@(ArrIx i) f (YSeq xs) | i < 0 = pure (YSeq xs)
                              | otherwise = YSeq <$> go xs i where
     go [] _ = pure []
@@ -46,7 +46,7 @@ instance At YamlLight where
           mv = Map.lookup k' m
   at k f y = const y <$> indexed f k Nothing
 
-instance Applicative f => Each f YamlLight YamlLight YamlLight YamlLight where
+instance Each YamlLight YamlLight YamlLight YamlLight where
   each f (YSeq xs) = YSeq <$> traverse (uncurry $ indexed f)
                                        (zip (map ArrIx [0..]) xs)
   each f (YMap m) = YMap <$> sequenceA (Map.mapWithKey (indexed f . ObjIx) m)
@@ -55,7 +55,7 @@ instance Applicative f => Each f YamlLight YamlLight YamlLight YamlLight where
 instance Plated YamlLight where
   plate f (YSeq xs) = YSeq <$> traverse f xs
   plate f (YMap m) = YMap <$> traverse f m
-  plate f y = pure y
+  plate _f y = pure y
 
 noRemainder :: (a, ByteString) -> Maybe a
 noRemainder (x, bs) = if BC.null bs then Just x else Nothing
