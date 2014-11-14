@@ -1,12 +1,12 @@
 name:                yaml-light-lens
-version:             0.3.1.3
+version:             0.3.1.4
 synopsis:            Lens interface to yaml-light.
 -- description:         
 license:             BSD3
 license-file:        LICENSE
 author:              Anthony Cowley
 maintainer:          acowley@gmail.com
-copyright:           Copyright (C) 2012-2013 Anthony Cowley
+copyright:           Copyright (C) 2012-2014 Anthony Cowley
 category:            Data
 build-type:          Simple
 extra-source-files:  tests/doctests.hs
@@ -22,7 +22,7 @@ library
                        bytestring,
                        bytestring-lexing >= 0.4.3,
                        containers,
-                       lens >= 4.0 && < 4.5,
+                       lens >= 4.0 && < 4.6,
                        yaml-light >= 0.1 && < 0.2
   hs-source-dirs:      src
   ghc-options:         -Wall -fno-warn-orphans
