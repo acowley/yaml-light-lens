@@ -1,7 +1,7 @@
 name:                yaml-light-lens
 version:             0.3.1.5
 synopsis:            Lens interface to yaml-light.
--- description:         
+description:         Lenses for working with YAML documents.
 license:             BSD3
 license-file:        LICENSE
 author:              Anthony Cowley
