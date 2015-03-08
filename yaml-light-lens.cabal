@@ -22,7 +22,7 @@ library
                        bytestring,
                        bytestring-lexing >= 0.4.3,
                        containers,
-                       lens >= 4.0 && < 4.8,
+                       lens >= 4.0 && < 4.9,
                        yaml-light >= 0.1 && < 0.2
   hs-source-dirs:      src
   ghc-options:         -Wall -fno-warn-orphans
