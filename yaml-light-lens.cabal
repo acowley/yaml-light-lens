@@ -1,5 +1,5 @@
 name:                yaml-light-lens
-version:             0.3.1.7
+version:             0.3.1.8
 synopsis:            Lens interface to yaml-light.
 description:         Lenses for working with YAML documents.
 license:             BSD3
@@ -22,7 +22,9 @@ library
                        bytestring,
                        bytestring-lexing >= 0.4.3,
                        containers,
-                       lens >= 4.0 && < 4.9,
+                       -- Needed to help Cabal's solver:
+                       transformers-compat ==0.4.0.3, 
+                       lens >= 4.0 && < 4.10,
                        yaml-light >= 0.1 && < 0.2
   hs-source-dirs:      src
   ghc-options:         -Wall -fno-warn-orphans
