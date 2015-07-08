@@ -12,8 +12,8 @@ import Control.Applicative
 import Control.Lens
 import Data.ByteString (ByteString)
 import qualified Data.ByteString.Char8 as BC
-import Data.ByteString.Lex.Integral
-import Data.ByteString.Lex.Double
+import qualified Data.ByteString.Lex.Integral as I
+import qualified Data.ByteString.Lex.Fractional as F
 import Data.Map (Map)
 import qualified Data.Map as Map
 import Data.Traversable (sequenceA)
@@ -62,12 +62,12 @@ noRemainder (x, bs) = if BC.null bs then Just x else Nothing
 
 -- | Try to parse an 'Integral' value from a 'YamlLight'.
 yamlInt :: Integral b => YamlLight -> Maybe b
-yamlInt (YStr s) = readSigned readDecimal s >>= noRemainder
+yamlInt (YStr s) = I.readSigned I.readDecimal s >>= noRemainder
 yamlInt _ = Nothing
 
--- | Try to parse a 'Double' from a 'YamlLight'.
-yamlReal :: YamlLight -> Maybe Double
-yamlReal (YStr s) = readDouble s >>= noRemainder
+-- | Try to parse a 'Fractional' value from a 'YamlLight'.
+yamlReal :: Fractional b => YamlLight -> Maybe b
+yamlReal (YStr s) = F.readSigned F.readDecimal s >>= noRemainder
 yamlReal _ = Nothing
 
 -- | Lens into a sequence.
@@ -125,14 +125,14 @@ instance AsYaml Int where
   fromYaml x@(YStr _) = yamlInt x
   fromYaml _ = Nothing
   toYaml x = YStr $ if x < 0 then BC.cons '-' bs else bs
-    where Just bs = packDecimal $ abs x
+    where Just bs = I.packDecimal $ abs x
   -- toYaml = YStr . BC.pack . show
 
 instance AsYaml Integer where
   fromYaml x@(YStr _) = yamlInt x
   fromYaml _ = Nothing
   toYaml x = YStr $ if x < 0 then BC.cons '-' bs else bs
-    where Just bs = packDecimal $ abs x
+    where Just bs = I.packDecimal $ abs x
   -- toYaml = YStr . BC.pack . show
 
 instance AsYaml Double where
