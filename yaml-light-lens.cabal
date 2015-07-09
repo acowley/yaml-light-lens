@@ -1,5 +1,5 @@
 name:                yaml-light-lens
-version:             0.3.1.10
+version:             0.3.2
 synopsis:            Lens interface to yaml-light.
 description:         Lenses for working with YAML documents.
 license:             BSD3
@@ -20,7 +20,7 @@ library
   exposed-modules:     Data.Yaml.YamlLight.Lens
   build-depends:       base >= 4.5 && < 5,
                        bytestring,
-                       bytestring-lexing >= 0.4.3,
+                       bytestring-lexing >= 0.5.0.2 && < 0.6,
                        containers,
                        lens >= 4.0 && < 4.12,
                        yaml-light >= 0.1 && < 0.2
