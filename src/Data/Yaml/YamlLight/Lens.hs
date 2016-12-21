@@ -1,14 +1,16 @@
-{-# LANGUAGE FlexibleInstances, FlexibleContexts, MultiParamTypeClasses,
-             TypeFamilies, RankNTypes #-}
+{-# LANGUAGE CPP, FlexibleContexts, FlexibleInstances,
+             MultiParamTypeClasses, RankNTypes, TypeFamilies #-}
 -- | Lenses for working with YAML structures.
 module Data.Yaml.YamlLight.Lens (
    -- * Traversals
-   nth, key, key', 
+   nth, key, key',
    -- * Yaml parsing prism
    _Yaml, AsYaml(..),
    -- * Numeric parsers
    yamlInt, yamlReal) where
+#if __GLASGOW_HASKELL__ < 710
 import Control.Applicative
+#endif
 import Control.Lens
 import Data.ByteString (ByteString)
 import qualified Data.ByteString.Char8 as BC
@@ -169,14 +171,14 @@ instance AsYaml Bool where
 --
 -- If we just want to pull out those values that were successfully
 -- parsed,
--- 
+--
 -- >>> let nums = YSeq [YStr "3", YStr "2a", YStr "1"]
 -- >>> nums ^.. each._Yaml :: [Int]
 -- [3,1]
 --
 -- Alternately, we may want to fail the entire parse if any element
 -- fails to parse.
--- 
+--
 -- >>> sequenceA $ map (preview _Yaml) (nums ^.. each) :: Maybe [Int]
 -- Nothing
 -- >>> let nums' = YSeq [YStr "3", YStr "2", YStr "1"]
@@ -184,4 +186,3 @@ instance AsYaml Bool where
 -- Just [3,2,1]
 _Yaml :: AsYaml a => Prism' YamlLight a
 _Yaml = prism' toYaml fromYaml
-
