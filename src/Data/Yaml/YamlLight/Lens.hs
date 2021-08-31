@@ -18,7 +18,6 @@ import qualified Data.ByteString.Lex.Integral as I
 import qualified Data.ByteString.Lex.Fractional as F
 import Data.Map (Map)
 import qualified Data.Map as Map
-import Data.Traversable (sequenceA)
 import Data.Yaml.YamlLight
 
 -- $setup
