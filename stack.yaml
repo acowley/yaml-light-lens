@@ -1,0 +1,9 @@
+resolver: lts-17.8
+
+packages:
+- '.'
+
+extra-package-dbs: []
+extra-deps:
+  - yaml-light-0.1.4
+  - HsSyck-0.53
